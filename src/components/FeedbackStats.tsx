@@ -1,10 +1,7 @@
 import {useContext} from 'react';
 import {FeedbackContext} from '../context/FeedbackContext';
 
-interface FeedbackStatsProps {
-}
-
-export const FeedbackStats = ({}: FeedbackStatsProps) => {
+export const FeedbackStats = () => {
 	const feedbackContext = useContext(FeedbackContext);
 	const average =
 		feedbackContext.data.length === 0
