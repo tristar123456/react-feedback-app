@@ -1,14 +1,9 @@
 import React, {useContext} from 'react';
-import {Feedback} from '../models/Feedback';
 import FeedbackItem from './FeedbackItem';
-import {UUID} from 'crypto';
 import {AnimatePresence, motion} from 'framer-motion';
 import {FeedbackContext} from '../context/FeedbackContext';
 
-interface FeedbackListProps {
-}
-
-export const FeedbackList = ({}: FeedbackListProps) => {
+export const FeedbackList = () => {
 	const feedbackContext = useContext(FeedbackContext);
 
 	if (!feedbackContext.data || feedbackContext.data.length <= 0) {
@@ -24,7 +19,7 @@ export const FeedbackList = ({}: FeedbackListProps) => {
 						animate={{opacity: 1}}
 						exit={{opacity: 0}}
 					>
-						<FeedbackItem key={item.id} item={item} />
+						<FeedbackItem key={item.id} item={item}/>
 					</motion.div>
 				)}
 			</AnimatePresence>

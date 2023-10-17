@@ -4,10 +4,7 @@ import {Button} from './shared/Button';
 import {RatingSelect} from './RatingSelect';
 import {FeedbackContext} from '../context/FeedbackContext';
 
-interface FeedbackFormProps {
-}
-
-export const FeedbackForm = ({}: FeedbackFormProps) => {
+export const FeedbackForm = () => {
 	const [text, setText] = useState('');
 	const [rating, setRating] = useState<number | null>(0);
 	const [btnDisabled, setBtnDisabled] = useState(true);
@@ -21,7 +18,7 @@ export const FeedbackForm = ({}: FeedbackFormProps) => {
 			setText(feedbackContext.feedbackEdit.item?.text ?? '');
 			setRating(feedbackContext.feedbackEdit.item?.rating ?? 0);
 		}
-	}, [feedbackContext.edit])
+	}, [feedbackContext.edit, feedbackContext.feedbackEdit.edit, feedbackContext.feedbackEdit.item?.rating, feedbackContext.feedbackEdit.item?.text])
 	const handleTextChange: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 		if (text === '') {

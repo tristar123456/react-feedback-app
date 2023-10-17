@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0fab1df-f712-4939-b6ce-9c1721a2029e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/FeedbackStats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FeedbackStats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FeedbackForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FeedbackForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FeedbackList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FeedbackList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
