@@ -7,9 +7,9 @@ interface HeaderProps {
 function Header({title, bgColor, textColor}: HeaderProps) {
 	const headerStyle = {backgroundColor: bgColor, color: textColor};
 	return (
-		<header style={headerStyle}>
+		<header data-testid='header' style={headerStyle}>
 			<div className="container">
-				<h2>{title}</h2>
+				<h2 data-testid='header-title'>{title}</h2>
 			</div>
 		</header>
 	);
