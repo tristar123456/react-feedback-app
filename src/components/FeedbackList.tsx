@@ -1,29 +1,30 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Feedback} from '../models/Feedback';
 import FeedbackItem from './FeedbackItem';
 import {UUID} from 'crypto';
 import {AnimatePresence, motion} from 'framer-motion';
+import {FeedbackContext} from '../context/FeedbackContext';
 
 interface FeedbackListProps {
-	feedback: Feedback[],
-	handleDelete: (id: UUID) => void
 }
 
-export const FeedbackList = ({feedback, handleDelete}: FeedbackListProps) => {
-	if (!feedback || feedback.length <= 0) {
+export const FeedbackList = ({}: FeedbackListProps) => {
+	const feedbackContext = useContext(FeedbackContext);
+
+	if (!feedbackContext.data || feedbackContext.data.length <= 0) {
 		return (<p>No Feedback yet!</p>)
 	}
 	return (
 		<div className="feedback-list">
 			<AnimatePresence>
-				{feedback.map((item) =>
+				{feedbackContext.data.map((item) =>
 					<motion.div
 						key={item.id}
 						initial={{opacity: 0}}
 						animate={{opacity: 1}}
 						exit={{opacity: 0}}
 					>
-						<FeedbackItem key={item.id} item={item} handleDelete={handleDelete}/>
+						<FeedbackItem key={item.id} item={item} />
 					</motion.div>
 				)}
 			</AnimatePresence>

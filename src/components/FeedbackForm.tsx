@@ -1,18 +1,27 @@
 import {Card} from './shared/Card';
-import {ChangeEvent, ChangeEventHandler, EventHandler, FormEvent, FormEventHandler, useState} from 'react';
+import {ChangeEvent, ChangeEventHandler, FormEvent, FormEventHandler, useContext, useEffect, useState} from 'react';
 import {Button} from './shared/Button';
 import {RatingSelect} from './RatingSelect';
-import {Feedback} from '../models/Feedback';
+import {FeedbackContext} from '../context/FeedbackContext';
 
 interface FeedbackFormProps {
-	handleAdd: (feedback: Omit<Feedback, 'id'>) => void
 }
 
-export const FeedbackForm = ({handleAdd}: FeedbackFormProps) => {
+export const FeedbackForm = ({}: FeedbackFormProps) => {
 	const [text, setText] = useState('');
 	const [rating, setRating] = useState<number | null>(0);
 	const [btnDisabled, setBtnDisabled] = useState(true);
 	const [message, setMessage] = useState<string | null>('');
+
+	const feedbackContext = useContext(FeedbackContext);
+
+	useEffect(() => {
+		if (feedbackContext.feedbackEdit.edit) {
+			setBtnDisabled(false);
+			setText(feedbackContext.feedbackEdit.item?.text ?? '');
+			setRating(feedbackContext.feedbackEdit.item?.rating ?? 0);
+		}
+	}, [feedbackContext.edit])
 	const handleTextChange: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 		if (text === '') {
@@ -30,7 +39,13 @@ export const FeedbackForm = ({handleAdd}: FeedbackFormProps) => {
 	const handleSubmit: FormEventHandler<HTMLFormElement> = (event: FormEvent) => {
 		event.preventDefault();
 		if (text.trim().length > 10 && rating && text) {
-			handleAdd({text, rating});
+			if (feedbackContext.feedbackEdit.edit && feedbackContext.feedbackEdit.item?.id) {
+				feedbackContext.update(feedbackContext.feedbackEdit.item.id, {text, rating})
+			} else {
+				feedbackContext.add({text, rating});
+			}
+			feedbackContext.edit();
+			setText('');
 		}
 	}
 
