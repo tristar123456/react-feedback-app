@@ -6,10 +6,10 @@ import {FeedbackContext} from '../context/FeedbackContext';
 export const FeedbackList = () => {
 	const feedbackContext = useContext(FeedbackContext);
 
-	if (!feedbackContext.data || feedbackContext.data.length <= 0) {
+	if (!feedbackContext.isLoading && (!feedbackContext.data || feedbackContext.data.length <= 0)) {
 		return (<p>No Feedback yet!</p>)
 	}
-	return (
+	return feedbackContext.isLoading ? (<h3>Loading...</h3>) : (
 		<div className="feedback-list">
 			<AnimatePresence>
 				{feedbackContext.data.map((item) =>

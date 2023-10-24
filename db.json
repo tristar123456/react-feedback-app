@@ -1,0 +1,29 @@
+{
+  "feedback": [
+    {
+      "id": "1111-2222-3333-aaaa-4444",
+      "rating": 10,
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. consequuntur vel vitae commodi alias voluptatem est voluptatum ipsa quae."
+    },
+    {
+      "id": "1111-2222-3333-aaaa-5555",
+      "rating": 9,
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. consequuntur vel vitae commodi alias voluptatem est voluptatum ipsa quae."
+    },
+    {
+      "id": "1111-2222-3333-aaaa-6666",
+      "rating": 8,
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. consequuntur vel vitae commodi alias voluptatem est voluptatum ipsa quae."
+    },
+    {
+      "text": "asdadasdadasdasdadadasd2313213ssdfsdfsf",
+      "rating": 7,
+      "id": "192f0b30-2332-414d-a2d4-552033309c94"
+    },
+    {
+      "id": "7c674de2-1c9a-4a29-ac52-12090226377f",
+      "text": "adadadadadasdada",
+      "rating": 8
+    }
+  ]
+}

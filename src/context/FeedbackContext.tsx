@@ -1,5 +1,4 @@
-import {createContext, PropsWithChildren, useState} from 'react';
-import FeedbackData from '../data/FeedbackData';
+import {createContext, PropsWithChildren, useCallback, useEffect, useState} from 'react';
 import {Feedback} from '../models/Feedback';
 import {UUID} from 'crypto';
 import {v4} from 'uuid';
@@ -7,6 +6,7 @@ import {v4} from 'uuid';
 export const FeedbackContext = createContext<{
 	data: Feedback[],
 	feedbackEdit: { item: Feedback | null, edit: boolean },
+	isLoading: boolean,
 	delete: (id: UUID) => void,
 	add: (feedback: Omit<Feedback, 'id'>) => void,
 	edit: (feedback?: Feedback) => void,
@@ -17,6 +17,7 @@ export const FeedbackContext = createContext<{
 		item: null,
 		edit: false
 	},
+	isLoading: true,
 	delete: () => {
 	},
 	add: () => {
@@ -28,18 +29,43 @@ export const FeedbackContext = createContext<{
 });
 
 export const FeedbackProvider = ({children}: PropsWithChildren) => {
-	const [feedbacks, setFeedback] = useState<Feedback[]>([FeedbackData[0]]);
-
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [feedbacks, setFeedback] = useState<Feedback[]>([]);
 	const [feedbackEdit, setFeedbackEdit] = useState<{ item: Feedback | null, edit: boolean }>({
 		item: null,
 		edit: false
-	})
+	});
 
-	const deleteFeedback = (deleteId: UUID) => window.confirm(`Are you sure to delete the item ${deleteId}?`)
-		&& setFeedback(feedbacks.filter(({id}) => deleteId !== id));
+	// Fetch Feedback
+	const fetchFeedback = async () => {
+		const res = await fetch(`/feedback`);
+		const data: Feedback[] = await res.json();
+
+		setFeedback(data);
+		setIsLoading(false);
+	}
+
+	const deleteFeedback = async (deleteId: UUID) => {
+		setIsLoading(true);
+		if (window.confirm(`Are you sure to delete the item ${deleteId}?`)) {
+			return fetch(`/feedback/${deleteId}`, {
+				method: 'DELETE'
+			}).then(() => setIsLoading(false));
+		} else {
+			setIsLoading(false)
+			return new Promise((resolve) => resolve(undefined))
+		}
+	};
 
 	const addFeedback = (newFeedback: Omit<Feedback, 'id'>) => {
-		setFeedback([{id: v4() as UUID, ...newFeedback}, ...feedbacks])
+		setIsLoading(true);
+		return fetch('/feedback', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({id: v4() as UUID, ...newFeedback})
+		}).then(() => setIsLoading(false));
 	};
 
 	const editFeedback = (item?: Feedback) => {
@@ -50,13 +76,25 @@ export const FeedbackProvider = ({children}: PropsWithChildren) => {
 		}
 	};
 
-	const updateFeedback = (id: UUID, updItem: Omit<Feedback, 'id'>) => {
-		setFeedback(feedbacks.map((feedback) => feedback.id === id ? {...feedback, ...updItem} : feedback))
-	}
+	const updateFeedback = useCallback((id: UUID, updItem: Omit<Feedback, 'id'>) => {
+		setIsLoading(true);
+		return fetch(`/feedback/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(updItem)
+		}).then(() => setIsLoading(false));
+	}, []);
+
+	useEffect(() => {
+		!isLoading && fetchFeedback()
+	}, [isLoading]);
 
 	return <FeedbackContext.Provider value={{
 		data: feedbacks,
 		feedbackEdit,
+		isLoading,
 		delete: deleteFeedback,
 		add: addFeedback,
 		edit: editFeedback,
